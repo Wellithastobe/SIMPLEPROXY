@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discord Webhook Proxy</title>
+    <style>
+        :root {
+            --background-color: #1e1e1e;
+            --text-color: #f4f4f4;
+            --form-background: #2c2c2c;
+            --button-background: #7289da;
+            --button-hover: #5b6eae;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        form {
+            background: var(--form-background);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        input {
+            width: 300px;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background: #333;
+            color: #fff;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: var(--button-background);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: var(--button-hover);
+        }
+
+        .result {
+            margin-top: 20px;
+            color: var(--text-color);
+        }
+
+        /* Snowflakes */
+        .snowflake {
+            position: absolute;
+            top: -10px;
+            font-size: 1em;
+            color: white;
+            opacity: 0.8;
+            animation: fall linear infinite, sway ease-in-out infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                top: -10px;
+            }
+            100% {
+                top: 100vh;
+            }
+        }
+
+        @keyframes sway {
+            0%, 100% {
+                transform: translateX(0);
+            }
+            50% {
+                transform: translateX(20px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Discord Webhook Proxy Generator</h1>
+    <form id="proxyForm">
+        <input type="text" id="webhookUrl" placeholder="Enter Discord Webhook URL" required>
+        <button type="submit">Generate Proxy</button>
+    </form>
+    <div class="result" id="result"></div>
+
+    <script>
+        // Handle form submission
+        document.getElementById('proxyForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const webhookUrl = document.getElementById('webhookUrl').value;
+
+            // Extract the ID and token from the webhook URL
+            const match = webhookUrl.match(/\/webhooks\/(\d+)\/([\w-]+)/);
+            if (!match) {
+                document.getElementById('result').textContent = "Invalid webhook URL!";
+                return;
+            }
+            const [_, id, token] = match;
+
+            // Generate the proxy URL
+            const proxyUrl = `http://localhost:3000/api/webhooks/${id}/${token}`;
+            document.getElementById('result').innerHTML = `
+                <p>Proxy URL:</p>
+                <a href="${proxyUrl}" target="_blank">${proxyUrl}</a>
+            `;
+        });
+
+        // Generate snowflakes
+        function createSnowflake() {
+            const snowflake = document.createElement('div');
+            snowflake.classList.add('snowflake');
+            snowflake.textContent = '❄';
+            snowflake.style.left = Math.random() * window.innerWidth + 'px';
+            snowflake.style.animationDuration = Math.random() * 3 + 2 + 's';
+            snowflake.style.fontSize = Math.random() * 10 + 10 + 'px';
+            snowflake.style.opacity = Math.random();
+
+            document.body.appendChild(snowflake);
+
+            // Remove snowflake after animation ends
+            setTimeout(() => {
+                snowflake.remove();
+            }, 5000);
+        }
+
+        setInterval(createSnowflake, 200);
+    </script>
+</body>
+</html>
