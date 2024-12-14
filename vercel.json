@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "api/**",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/webhooks/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)",
+      "dest": "/api/webhooks/[id]/[token].js"
+    }
+  ]
+}
