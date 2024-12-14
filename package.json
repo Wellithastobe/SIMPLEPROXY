@@ -20,3 +20,9 @@
     "dev": "node server.js"
   }
 }
+
+{
+  "scripts": {
+    "build": "echo 'Nothing to build for this app'"
+  }
+}
