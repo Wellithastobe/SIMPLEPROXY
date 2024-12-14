@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "dev": "node server.js", 
+    "build": "echo 'Nothing to build for this app'", 
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -12,17 +14,5 @@
   "dependencies": {
     "axios": "^1.7.9",
     "express": "^4.21.2"
-  }
-}
-
-{
-  "scripts": {
-    "dev": "node server.js"
-  }
-}
-
-{
-  "scripts": {
-    "build": "echo 'Nothing to build for this app'"
   }
 }
